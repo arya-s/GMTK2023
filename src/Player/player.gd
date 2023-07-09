@@ -30,13 +30,18 @@ var mouse_sensitivity = 0.05
 var min_look_angle = deg_to_rad(-20.0)
 var max_look_angle = deg_to_rad(20.0)
 
-@onready var model = $Visuals
+@onready var model = $Model
 @onready var spring_arm = $CameraMount/SpringArm
 @onready var variable_jump_timer = $VariableJumpTimer
 @onready var jump_buffer_timer = $JumpBufferTimer
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var camera_mount = $CameraMount
+@onready var animation_player = $AnimationPlayer
+@onready var bite_audio = $BiteAudio
 
+var bite_audios = [load("res://assets/audio/bite_1.wav"), load("res://assets/audio/bite_2.wav")]
+
+var is_locked = false
 
 	
 func _input(event):
@@ -56,8 +61,20 @@ func _physics_process(delta):
 #	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 #	input_vector.z = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 #	input_vector = input_vector.rotated(Vector3.UP, spring_arm.rotation.y).normalized()
+	if Input.is_action_just_pressed("attack") and animation_player.current_animation != "Bite":
+		animation_player.play("Bite")
+		bite_audio.stream = bite_audios.pick_random()
+		bite_audio.play()
+		is_locked = true
+		
 	handle_joystick_look(delta)
 	
+	if is_locked:
+		if not is_on_floor():
+			velocity.y = move_toward(velocity.y, max_fall, GRAVITY * delta)
+			move_and_slide()
+		return
+		
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -113,3 +130,9 @@ func jump(input_vector: Vector3):
 	variable_jump_timer.start()
 	velocity.y = JUMP_FORCE
 	variable_jump_speed = velocity.y
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "Bite":
+		bite_audio.stop()
+		is_locked = false
