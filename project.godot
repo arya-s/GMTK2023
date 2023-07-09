@@ -21,7 +21,7 @@ Global="*res://src/Global.gd"
 
 [display]
 
-window/size/viewport_width=1270
+window/size/viewport_width=1280
 window/size/viewport_height=720
 
 [editor_plugins]
@@ -98,3 +98,7 @@ ui_look_down={
 [physics]
 
 3d/default_gravity=45.0
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
