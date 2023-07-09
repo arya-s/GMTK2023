@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://crh1ls3qqk2rd"]
 
-[ext_resource type="MeshLibrary" uid="uid://b77vhtgqsagw6" path="res://assets/mesh_lib.tres" id="1_xagbd"]
+[ext_resource type="MeshLibrary" uid="uid://c352gv2vysk0" path="res://assets/mesh_lib_compat.tres" id="1_nid47"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="GridMap" type="GridMap" parent="."]
-mesh_library = ExtResource("1_xagbd")
+mesh_library = ExtResource("1_nid47")
 cell_size = Vector3(1, 1, 1)
 cell_center_y = false
 data = {

@@ -16,12 +16,11 @@
 [ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_shape.gd" id="14_ocywp"]
 [ext_resource type="Script" path="res://addons/proton_scatter/src/shapes/box_shape.gd" id="15_mvt4p"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5tqen"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_o14f4"]
+sky_top_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Sky" id="Sky_55cqr"]
-sky_material = SubResource("ProceduralSkyMaterial_5tqen")
+sky_material = SubResource("ProceduralSkyMaterial_o14f4")
 
 [sub_resource type="Environment" id="Environment_0di2f"]
 background_mode = 2
@@ -39,7 +38,7 @@ size = Vector3(0.324345, 0.353332, 0.3237)
 albedo_texture = ExtResource("1_fq43o")
 uv1_triplanar = true
 
-[sub_resource type="Resource" id="Resource_yxll4"]
+[sub_resource type="Resource" id="Resource_8ejad"]
 script = ExtResource("10_qogeh")
 amount = 100
 enabled = true
@@ -48,7 +47,7 @@ custom_seed = 4
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_37mlk"]
+[sub_resource type="Resource" id="Resource_mv6wf"]
 script = ExtResource("11_x30p6")
 position = Vector3(0.15, 0, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -59,7 +58,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_5cseo"]
+[sub_resource type="Resource" id="Resource_k82g0"]
 script = ExtResource("12_tabo0")
 iterations = 3
 offset_step = 0.2
@@ -71,7 +70,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_6s8ba"]
+[sub_resource type="Resource" id="Resource_7rsoj"]
 script = ExtResource("13_rlakb")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -86,15 +85,18 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_r4lwf"]
+[sub_resource type="Resource" id="Resource_onno0"]
 script = ExtResource("9_fddi8")
-stack = Array[Resource]([SubResource("Resource_yxll4"), SubResource("Resource_37mlk"), SubResource("Resource_5cseo"), SubResource("Resource_6s8ba")])
+stack = Array[Resource]([SubResource("Resource_8ejad"), SubResource("Resource_mv6wf"), SubResource("Resource_k82g0"), SubResource("Resource_7rsoj")])
 
 [sub_resource type="Resource" id="Resource_mqcax"]
 script = ExtResource("15_mvt4p")
 size = Vector3(6.9981, 1, 11.9504)
 
 [node name="World" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+sky_mode = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0di2f")
@@ -150,7 +152,7 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.55, 12.439)
 
 [node name="ProtonScatter" parent="Map/Worldmap" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
-modifier_stack = SubResource("Resource_r4lwf")
+modifier_stack = SubResource("Resource_onno0")
 
 [node name="ScatterShape2" type="Node3D" parent="Map/Worldmap/ProtonScatter" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.427535, 1.11114)
