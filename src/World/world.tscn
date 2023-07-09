@@ -38,7 +38,7 @@ agent_max_climb = 0.6
 albedo_texture = ExtResource("1_fq43o")
 uv1_triplanar = true
 
-[sub_resource type="Resource" id="Resource_xhkcu"]
+[sub_resource type="Resource" id="Resource_gl6or"]
 script = ExtResource("10_qogeh")
 amount = 100
 enabled = true
@@ -47,7 +47,7 @@ custom_seed = 4
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_rdqj3"]
+[sub_resource type="Resource" id="Resource_bbgsj"]
 script = ExtResource("11_x30p6")
 position = Vector3(0.15, 0, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -58,7 +58,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_4wjbx"]
+[sub_resource type="Resource" id="Resource_1yt4b"]
 script = ExtResource("12_tabo0")
 iterations = 3
 offset_step = 0.2
@@ -70,7 +70,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_4r0wd"]
+[sub_resource type="Resource" id="Resource_nmeic"]
 script = ExtResource("13_rlakb")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -85,9 +85,9 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_1t2sv"]
+[sub_resource type="Resource" id="Resource_yykqt"]
 script = ExtResource("9_fddi8")
-stack = Array[Resource]([SubResource("Resource_xhkcu"), SubResource("Resource_rdqj3"), SubResource("Resource_4wjbx"), SubResource("Resource_4r0wd")])
+stack = Array[Resource]([SubResource("Resource_gl6or"), SubResource("Resource_bbgsj"), SubResource("Resource_1yt4b"), SubResource("Resource_nmeic")])
 
 [sub_resource type="Resource" id="Resource_mqcax"]
 script = ExtResource("15_mvt4p")
@@ -136,7 +136,7 @@ collision_mask = 3
 
 [node name="ProtonScatter" parent="NavigationRegion3D/Map/Worldmap" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
-modifier_stack = SubResource("Resource_1t2sv")
+modifier_stack = SubResource("Resource_yykqt")
 
 [node name="ScatterShape2" type="Node3D" parent="NavigationRegion3D/Map/Worldmap/ProtonScatter" index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.427535, 1.11114)
@@ -149,13 +149,12 @@ shape = SubResource("Resource_mqcax")
 visible = false
 
 [node name="Enemy" parent="NavigationRegion3D/Map" instance=ExtResource("13_ecwl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.90988, 0.5, 17.6304)
 
 [node name="Enemy2" parent="NavigationRegion3D/Map" instance=ExtResource("13_ecwl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7083, 0.5, 18.6838)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.9925, 0, 14.8752)
 
 [node name="Enemy3" parent="NavigationRegion3D/Map" instance=ExtResource("13_ecwl4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.7063, 0.5, 20.649)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1503, 0, 25.9854)
 
 [editable path="NavigationRegion3D/Map/Node3D"]
 [editable path="NavigationRegion3D/Map/Worldmap"]

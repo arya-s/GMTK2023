@@ -26,8 +26,9 @@ const JUMP_VELOCITY = 4.5
 
 var max_fall = FALL_MAX_SPEED
 var variable_jump_speed = 0
-
 var mouse_sensitivity = 0.05
+var min_look_angle = deg_to_rad(-20.0)
+var max_look_angle = deg_to_rad(20.0)
 
 @onready var model = $Visuals
 @onready var spring_arm = $CameraMount/SpringArm
@@ -43,7 +44,9 @@ func _input(event):
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 		# player model should not rotate with mouse
 		model.rotate_y(deg_to_rad(event.relative.x * mouse_sensitivity))
+		
 		camera_mount.rotate_x(deg_to_rad(-event.relative.y * mouse_sensitivity))
+		camera_mount.rotation.x = clamp(camera_mount.rotation.x, min_look_angle, max_look_angle)
 		
 
 func _physics_process(delta):
@@ -53,7 +56,7 @@ func _physics_process(delta):
 #	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 #	input_vector.z = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 #	input_vector = input_vector.rotated(Vector3.UP, spring_arm.rotation.y).normalized()
-	handle_joystick_look()
+	handle_joystick_look(delta)
 	
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -95,13 +98,15 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func handle_joystick_look():
+func handle_joystick_look(delta):
 	var input_dir = Input.get_vector("ui_look_left", "ui_look_right", "ui_look_up", "ui_look_down")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	rotate_y(deg_to_rad(-direction.x * 4))
-	model.rotate_y(deg_to_rad(direction.x * 4))
-	camera_mount.rotate_x(deg_to_rad(-direction.z * 4))
+	if input_dir:
+		rotate_y(deg_to_rad(-input_dir.x * 4))
+		model.rotate_y(deg_to_rad(input_dir.x * 4))
+		
+		camera_mount.rotate_x(deg_to_rad(-input_dir.y * 4))
+		camera_mount.rotation.x = clamp(camera_mount.rotation.x, min_look_angle, max_look_angle)
 		
 func jump(input_vector: Vector3):
 	coyote_jump_timer.stop()
