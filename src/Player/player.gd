@@ -41,10 +41,12 @@ var max_look_angle = deg_to_rad(20.0)
 @onready var biting_area = $Model/BitingArea
 @onready var bite_range_area = $Model/BiteRangeArea
 @onready var chewing_audio = $ChewingAudio
+@onready var lid = $Model/chest2/lid
 
 var bite_audios = [load("res://assets/audio/bite_1.wav"), load("res://assets/audio/bite_2.wav")]
 
 var is_locked = false
+var is_cowering = false
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -75,12 +77,21 @@ func _physics_process(delta):
 			move_and_slide()
 			bite_enemies()
 		return
+		
+	if Input.is_action_just_pressed("cower"):
+		cower()
 	
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if direction:
 		model.look_at(position + direction)
+		animation_player.play("Run")
+		is_cowering = false
+	else:
+		animation_player.stop()
+		if is_cowering:
+			lid.rotation.x = deg_to_rad(115.8)
 	
 	# apply horizontal force
 	var run_multiplier = 1.0 if is_on_floor() else AIR_MULTIPLIER
@@ -156,3 +167,8 @@ func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Bite":
 		bite_audio.stop()
 		is_locked = false
+		
+func cower():
+	is_cowering = true
+	lid.rotation.x = deg_to_rad(115.8)
+	

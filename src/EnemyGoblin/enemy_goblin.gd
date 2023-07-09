@@ -24,3 +24,6 @@ func update_target_position(target_pos: Vector3):
 func _on_navigation_agent_3d_velocity_computed(safe_velocity):
 	velocity = velocity.move_toward(safe_velocity, 0.25)
 	move_and_slide()
+
+func stop_navigation():
+	navigation_agent.set_target_position(global_position)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bgg6ekk6x07bf"]
+[gd_scene load_steps=16 format=3 uid="uid://bgg6ekk6x07bf"]
 
 [ext_resource type="Script" path="res://src/Player/player.gd" id="1_ah3qm"]
 [ext_resource type="AudioStream" uid="uid://dgjq8hlpaxs4u" path="res://assets/audio/chewing.wav" id="2_8qv51"]
@@ -154,14 +154,81 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w6dqd"]
+resource_name = "Run"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Model:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.1, 0), Vector3(0, 0, 0), Vector3(0, 0.1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Model:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.0987507, -9.30527e-10, 0.107024), Vector3(0, 0, 0), Vector3(-0.0994838, 0, -0.106465)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Model/chest2/lid:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.143212, -0.0154926, -0.00111126), Vector3(-0.135525, -0.0103765, 0.00164581), Vector3(0.19696, 0.0234281, 0.00323518)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hhk6a"]
 _data = {
 "Bite": SubResource("Animation_1d0w8"),
-"RESET": SubResource("Animation_ogoym")
+"RESET": SubResource("Animation_ogoym"),
+"Run": SubResource("Animation_w6dqd")
 }
 
 [node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_ah3qm")
@@ -171,6 +238,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 shape = SubResource("CapsuleShape3D_f44uh")
 
 [node name="Model" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="chest2" type="MeshInstance3D" parent="Model"]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
@@ -178,7 +246,7 @@ mesh = SubResource("ArrayMesh_ook80")
 skeleton = NodePath("")
 
 [node name="lid" type="MeshInstance3D" parent="Model/chest2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7253e-09, 0.2, 0.2)
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 2.79397e-09, 0.2, 0.2)
 mesh = SubResource("ArrayMesh_cw665")
 skeleton = NodePath("")
 
