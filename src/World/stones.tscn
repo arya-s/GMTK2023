@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3w34eipi2grg"]
+
+[ext_resource type="PackedScene" uid="uid://c1ocme5v4gvau" path="res://assets/models/stones.glb" id="1_ssfnf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vwayv"]
+size = Vector3(0.625, 0.335088, 0.482)
+
+[node name="stones" instance=ExtResource("1_ssfnf")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="stones2" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="stones2/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+shape = SubResource("BoxShape3D_vwayv")

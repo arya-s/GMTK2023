@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpfnjffm4wpdw"]
+
+[ext_resource type="PackedScene" uid="uid://do31orhbb43ua" path="res://src/World/static_scatter_item.tscn" id="1_erhvn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_14oog"]
+size = Vector3(0.724277, 0.429253, 0.625027)
+
+[node name="ScatterItemStones" instance=ExtResource("1_erhvn")]
+path = "res://assets/models/stones.glb"
+
+[node name="CollisionShape3D" parent="StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("BoxShape3D_14oog")

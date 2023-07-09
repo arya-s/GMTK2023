@@ -1,0 +1,166 @@
+[gd_scene load_steps=27 format=3 uid="uid://dgcyrqijuh4nj"]
+
+[ext_resource type="Texture2D" uid="uid://sbd71xo8kd2n" path="res://assets/textures/Dark/texture_05.png" id="1_fq43o"]
+[ext_resource type="PackedScene" uid="uid://cwm3n60ju2mh0" path="res://assets/models/wood-support.glb" id="1_yxvro"]
+[ext_resource type="PackedScene" uid="uid://dckk5kx7184y7" path="res://assets/models/barrel.glb" id="2_07wvu"]
+[ext_resource type="PackedScene" uid="uid://cpf24l01rpyvn" path="res://assets/models/wall-half.glb" id="3_b5cl6"]
+[ext_resource type="PackedScene" uid="uid://bgg6ekk6x07bf" path="res://src/Player/player.tscn" id="5_0fgcn"]
+[ext_resource type="PackedScene" uid="uid://b4iqp400ynowp" path="res://assets/models/character-human.glb" id="6_isyas"]
+[ext_resource type="PackedScene" uid="uid://crh1ls3qqk2rd" path="res://assets/node_3d.tscn" id="7_qd7qe"]
+[ext_resource type="PackedScene" uid="uid://brvgrf0ppb52u" path="res://src/worldmap.tscn" id="8_iyi1t"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="9_fddi8"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="10_qogeh"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="11_x30p6"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="12_tabo0"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="13_rlakb"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_shape.gd" id="14_ocywp"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/shapes/box_shape.gd" id="15_mvt4p"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5tqen"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_55cqr"]
+sky_material = SubResource("ProceduralSkyMaterial_5tqen")
+
+[sub_resource type="Environment" id="Environment_0di2f"]
+background_mode = 2
+sky = SubResource("Sky_55cqr")
+tonemap_mode = 2
+ssil_enabled = true
+fog_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+fog_density = 0.001
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e3b3g"]
+size = Vector3(0.324345, 0.353332, 0.3237)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3snkk"]
+albedo_texture = ExtResource("1_fq43o")
+uv1_triplanar = true
+
+[sub_resource type="Resource" id="Resource_5mwmf"]
+script = ExtResource("10_qogeh")
+amount = 100
+enabled = true
+override_global_seed = false
+custom_seed = 4
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_ww00s"]
+script = ExtResource("11_x30p6")
+position = Vector3(0.15, 0, 0.15)
+rotation = Vector3(0, 0, 0)
+scale = Vector3(0, 0, 0)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_224uo"]
+script = ExtResource("12_tabo0")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_5nfxv"]
+script = ExtResource("13_rlakb")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_vvnhe"]
+script = ExtResource("9_fddi8")
+stack = Array[Resource]([SubResource("Resource_5mwmf"), SubResource("Resource_ww00s"), SubResource("Resource_224uo"), SubResource("Resource_5nfxv")])
+
+[sub_resource type="Resource" id="Resource_mqcax"]
+script = ExtResource("15_mvt4p")
+size = Vector3(6.9981, 1, 11.9504)
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_0di2f")
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="wood-support" parent="Map" instance=ExtResource("1_yxvro")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.859, 0.55, 1.441)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -1.27911, 0.6, -0.110965)
+
+[node name="barrel" parent="Map/StaticBody3D" instance=ExtResource("2_07wvu")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.192869, 0)
+shape = SubResource("BoxShape3D_e3b3g")
+
+[node name="wall-half" parent="Map" instance=ExtResource("3_b5cl6")]
+transform = Transform3D(-3, 0, 2.62268e-07, 0, 3, 0, -2.62268e-07, 0, -3, 1.188, 0.55, 0.134)
+
+[node name="wall-half2" parent="Map" instance=ExtResource("3_b5cl6")]
+transform = Transform3D(-3, 0, 4.52987e-07, 0, 3, 0, -4.52987e-07, 0, -3, -4.978, 0.55, 0.158)
+
+[node name="character-human" parent="Map" instance=ExtResource("6_isyas")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -1.65776, 0.499999, 1.07326)
+
+[node name="Floor" type="CSGBox3D" parent="Map"]
+visible = false
+material_override = SubResource("StandardMaterial3D_3snkk")
+use_collision = true
+size = Vector3(1000, 1, 1000)
+
+[node name="Player" parent="Map" instance=ExtResource("5_0fgcn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73366, 0.5, 7.12033)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Map/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+light_color = Color(1, 1, 0.176471, 1)
+light_energy = 0.7
+light_indirect_energy = 0.7
+light_volumetric_fog_energy = 0.7
+light_size = 0.7
+light_specular = 0.2
+shadow_enabled = true
+distance_fade_enabled = true
+
+[node name="Node3D" parent="Map" instance=ExtResource("7_qd7qe")]
+transform = Transform3D(2.99954, 0, 0.0523572, 0, 3, 0, -0.0523572, 0, 2.99954, 0, 0.55, 29.363)
+
+[node name="Worldmap" parent="Map" instance=ExtResource("8_iyi1t")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.55, 12.439)
+
+[node name="ProtonScatter" parent="Map/Worldmap" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+modifier_stack = SubResource("Resource_vvnhe")
+
+[node name="ScatterShape2" type="Node3D" parent="Map/Worldmap/ProtonScatter" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.427535, 1.11114)
+visible = false
+script = ExtResource("14_ocywp")
+negative = true
+shape = SubResource("Resource_mqcax")
+
+[node name="ScatterShape" parent="Map/Worldmap/ProtonScatter" index="4"]
+visible = false
+
+[editable path="Map/Node3D"]
+[editable path="Map/Worldmap"]
