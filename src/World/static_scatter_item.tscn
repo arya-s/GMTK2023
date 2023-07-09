@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://do31orhbb43ua"]
+[gd_scene load_steps=3 format=3 uid="uid://dfqv3q8q46dnb"]
 
 [ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_item.gd" id="1_rxaw7"]
 

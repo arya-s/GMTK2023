@@ -36,8 +36,7 @@ var mouse_sensitivity = 0.05
 @onready var coyote_jump_timer = $CoyoteJumpTimer
 @onready var camera_mount = $CameraMount
 
-func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
 	
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -95,10 +94,6 @@ func _physics_process(delta):
 			jump_buffer_timer.start()
 
 	move_and_slide()
-	
-#	if velocity.length() > 0.2:
-#		var look_direction = Vector2(velocity.z, velocity.x)
-#		model.rotation.y = look_direction.angle()
 
 func handle_joystick_look():
 	var input_dir = Input.get_vector("ui_look_left", "ui_look_right", "ui_look_up", "ui_look_down")
@@ -111,8 +106,5 @@ func handle_joystick_look():
 func jump(input_vector: Vector3):
 	coyote_jump_timer.stop()
 	variable_jump_timer.start()
-	
-#	velocity.x += input_vector.x * JUMP_HORIZONTAL_BOOST
-#	velocity.z += input_vector.z * JUMP_HORIZONTAL_BOOST
 	velocity.y = JUMP_FORCE
 	variable_jump_speed = velocity.y

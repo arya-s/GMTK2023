@@ -46,6 +46,8 @@ size = Vector3(0.879154, 0.422045, 0.874269)
 mesh = SubResource("ArrayMesh_xg8w8")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="rocks2" index="0"]
+collision_layer = 2
+collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="rocks2/StaticBody3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)

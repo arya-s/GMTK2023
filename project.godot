@@ -95,10 +95,11 @@ ui_look_down={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="player"
+3d_physics/layer_2="world"
+
 [physics]
 
 3d/default_gravity=45.0
-
-[rendering]
-
-renderer/rendering_method="gl_compatibility"
