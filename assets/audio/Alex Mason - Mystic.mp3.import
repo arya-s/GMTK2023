@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c4yo8ec0rqthg"
+path="res://.godot/imported/Alex Mason - Mystic.mp3-0289afc80e0ada4495c4e4688996136d.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/Alex Mason - Mystic.mp3"
+dest_files=["res://.godot/imported/Alex Mason - Mystic.mp3-0289afc80e0ada4495c4e4688996136d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

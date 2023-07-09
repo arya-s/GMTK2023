@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://60m3f0vryoiv"]
+
+[ext_resource type="AudioStream" uid="uid://c4yo8ec0rqthg" path="res://assets/audio/Alex Mason - Mystic.mp3" id="1_m3n63"]
+
+[node name="Music" type="Node"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_m3n63")
+autoplay = true

@@ -38,12 +38,14 @@ var max_look_angle = deg_to_rad(20.0)
 @onready var camera_mount = $CameraMount
 @onready var animation_player = $AnimationPlayer
 @onready var bite_audio = $BiteAudio
+@onready var biting_area = $Model/BitingArea
+@onready var bite_range_area = $Model/BiteRangeArea
+@onready var chewing_audio = $ChewingAudio
 
 var bite_audios = [load("res://assets/audio/bite_1.wav"), load("res://assets/audio/bite_2.wav")]
 
 var is_locked = false
 
-	
 func _input(event):
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
@@ -62,9 +64,7 @@ func _physics_process(delta):
 #	input_vector.z = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 #	input_vector = input_vector.rotated(Vector3.UP, spring_arm.rotation.y).normalized()
 	if Input.is_action_just_pressed("attack") and animation_player.current_animation != "Bite":
-		animation_player.play("Bite")
-		bite_audio.stream = bite_audios.pick_random()
-		bite_audio.play()
+		bite_enemies()
 		is_locked = true
 		
 	handle_joystick_look(delta)
@@ -73,8 +73,9 @@ func _physics_process(delta):
 		if not is_on_floor():
 			velocity.y = move_toward(velocity.y, max_fall, GRAVITY * delta)
 			move_and_slide()
+			bite_enemies()
 		return
-		
+	
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -130,7 +131,26 @@ func jump(input_vector: Vector3):
 	variable_jump_timer.start()
 	velocity.y = JUMP_FORCE
 	variable_jump_speed = velocity.y
+	
 
+func can_bite():
+	var enemies = bite_range_area.get_overlapping_bodies()
+	return enemies.size() == 1
+
+func bite_enemies():
+	animation_player.play("Bite")
+	bite_audio.stream = bite_audios.pick_random()
+	bite_audio.play()
+	
+	if not can_bite():
+		return
+		
+	var enemies = biting_area.get_overlapping_bodies()
+	if enemies.size() == 1:
+		chewing_audio.play()
+		var enemy = enemies[0]
+		enemy.queue_free()
+		Global.enemy_death_audio.play()
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Bite":

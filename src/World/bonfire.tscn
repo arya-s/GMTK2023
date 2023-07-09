@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://cg4enpvcwkm6n"]
+
+[ext_resource type="PackedScene" uid="uid://c2dp72wpom61t" path="res://assets/models/Bonfire.glb" id="1_bt6po"]
+[ext_resource type="Texture2D" uid="uid://dsdlnqc875cgd" path="res://assets/textures/Smoke30Frames_0.png" id="2_v71a4"]
+
+[sub_resource type="Gradient" id="Gradient_vis0p"]
+offsets = PackedFloat32Array(0, 0.251825, 0.339416, 0.430657, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.52549, 0, 0, 1, 0.905112, 0.826052, 0.0484282, 1, 0.416754, 5.71553e-07, 1.44392e-07, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cwy56"]
+gradient = SubResource("Gradient_vis0p")
+
+[sub_resource type="Curve" id="Curve_7tn3i"]
+bake_resolution = 128
+_data = [Vector2(0, 0), 0.0, 2.27612, 0, 0, Vector2(0.170492, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0842105), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_q07gj"]
+width = 2048
+curve = SubResource("Curve_7tn3i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qiytm"]
+emission_shape = 1
+emission_sphere_radius = 0.4
+direction = Vector3(0, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_max = 4.0
+angular_velocity_max = 4.0
+linear_accel_max = 4.0
+angle_max = 360.0
+scale_min = 0.4
+scale_max = 1.2
+scale_curve = SubResource("CurveTexture_q07gj")
+color_ramp = SubResource("GradientTexture1D_cwy56")
+anim_speed_max = 1.0
+anim_offset_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1syv5"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.936956, 0.868457, 0.15872, 1)
+albedo_texture = ExtResource("2_v71a4")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 5
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_eg4an"]
+material = SubResource("StandardMaterial3D_1syv5")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8tr0f"]
+size = Vector3(0.581811, 0.096225, 0.655109)
+
+[node name="Bonfire" type="Node3D"]
+
+[node name="Bonfire" parent="." instance=ExtResource("1_bt6po")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0.1, 0)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00043869, 0.454286, 0.00486517)
+amount = 100
+lifetime = 0.4
+preprocess = 0.4
+randomness = 1.0
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_qiytm")
+draw_pass_1 = SubResource("QuadMesh_eg4an")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00824475, 0)
+light_color = Color(0.960784, 0.894118, 0.227451, 1)
+light_energy = 0.4
+light_size = 20.0
+shadow_enabled = true
+omni_range = 1.99136
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0125626, 0)
+shape = SubResource("BoxShape3D_8tr0f")

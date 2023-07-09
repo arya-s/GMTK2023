@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj71vvoaaj18n"]
+
+[ext_resource type="Script" path="res://src/Global/global.gd" id="1_s3bip"]
+[ext_resource type="AudioStream" uid="uid://bdyutvx1ubnga" path="res://assets/audio/enemy_death.wav" id="2_l51yd"]
+
+[node name="Global" type="Node"]
+script = ExtResource("1_s3bip")
+
+[node name="EnemyDeathAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_l51yd")

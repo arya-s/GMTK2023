@@ -1,0 +1,106 @@
+[gd_scene load_steps=18 format=3 uid="uid://b4wf16420uyq1"]
+
+[ext_resource type="PackedScene" uid="uid://tkxn8xgik6fl" path="res://assets/models/floor.glb" id="1_d1wh4"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter.gd" id="2_gv5qd"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="3_qjiyu"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="4_7a7ai"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="5_8qks3"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="6_jfd5v"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="7_c1jcr"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_item.gd" id="8_oysl0"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/scatter_shape.gd" id="9_agjl6"]
+[ext_resource type="Script" path="res://addons/proton_scatter/src/shapes/box_shape.gd" id="10_kcrqr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hlvga"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="Resource" id="Resource_blfti"]
+script = ExtResource("4_7a7ai")
+amount = 250
+enabled = true
+override_global_seed = false
+custom_seed = 4
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_4dwwh"]
+script = ExtResource("5_8qks3")
+position = Vector3(0.15, 0, 0.15)
+rotation = Vector3(0, 0, 0)
+scale = Vector3(0, 0, 0)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_sfr75"]
+script = ExtResource("6_jfd5v")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_sbma3"]
+script = ExtResource("7_c1jcr")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 5
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_mqoqs"]
+script = ExtResource("3_qjiyu")
+stack = Array[Resource]([SubResource("Resource_blfti"), SubResource("Resource_4dwwh"), SubResource("Resource_sfr75"), SubResource("Resource_sbma3")])
+
+[sub_resource type="Resource" id="Resource_bfvgk"]
+script = ExtResource("10_kcrqr")
+size = Vector3(21.9337, 1, 21.2295)
+
+[node name="ScatterMap" type="Node3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_hlvga")
+
+[node name="floor" parent="Floor" instance=ExtResource("1_d1wh4")]
+transform = Transform3D(25, 0, 0, 0, 25, 0, 0, 0, 25, 0, -0.0191965, 0)
+
+[node name="ProtonScatter" type="Node3D" parent="."]
+script = ExtResource("2_gv5qd")
+keep_static_colliders = true
+enable_updates_in_game = true
+modifier_stack = SubResource("Resource_mqoqs")
+
+[node name="ScatterItem" type="Node3D" parent="ProtonScatter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+script = ExtResource("8_oysl0")
+path = "res://src/World/floor_detail.tscn"
+
+[node name="ScatterItem2" type="Node3D" parent="ProtonScatter"]
+script = ExtResource("8_oysl0")
+path = "res://src/World/stones.tscn"
+
+[node name="ScatterItem3" type="Node3D" parent="ProtonScatter"]
+script = ExtResource("8_oysl0")
+path = "res://src/World/rocks.tscn"
+
+[node name="ScatterShape" type="Node3D" parent="ProtonScatter"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+script = ExtResource("9_agjl6")
+shape = SubResource("Resource_bfvgk")

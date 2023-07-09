@@ -20,7 +20,6 @@ func _physics_process(delta):
 func update_target_position(target_pos: Vector3):
 	navigation_agent.set_target_position(target_pos)
 
-
 func _on_navigation_agent_3d_velocity_computed(safe_velocity):
 	velocity = velocity.move_toward(safe_velocity, 0.25)
 	move_and_slide()
